@@ -18,8 +18,10 @@ import kotlin.math.truncate
 
 @Configuration
 class RabbitMQPublisherConfig(
-    private val connectionFactory: ConnectionFactory
+    private val connectionFactory: ConnectionFactory,
 ) {
+
+    private lateinit var rabbitAdmin: RabbitAdmin
 
     companion object {
         private const val EXCHANGE = "test.v1.send-message"
@@ -34,14 +36,14 @@ class RabbitMQPublisherConfig(
 
     @PostConstruct
     fun createRabbitElements() {
-        val rabbitAdmin = RabbitAdmin(connectionFactory)
-        createExchange(rabbitAdmin)
-        createQueue(rabbitAdmin, FIRST_QUEUE)
-        createQueue(rabbitAdmin, SECOND_QUEUE)
-        createQueue(rabbitAdmin, THIRTY_QUEUE)
+        rabbitAdmin = RabbitAdmin(connectionFactory)
+        createExchange()
+        createQueue(FIRST_QUEUE)
+        createQueue(SECOND_QUEUE)
+        createQueue(THIRTY_QUEUE)
     }
 
-    private fun createExchange(rabbitAdmin: RabbitAdmin) {
+    private fun createExchange() {
         ExchangeBuilder
             .fanoutExchange(EXCHANGE)
             .durable(true)
@@ -49,7 +51,7 @@ class RabbitMQPublisherConfig(
             .let(rabbitAdmin::declareExchange)
     }
 
-    private fun createQueue(rabbitAdmin: RabbitAdmin, queue: String) {
+    private fun createQueue(queue: String) {
         QueueBuilder.durable(queue).build()
             .let(rabbitAdmin::declareQueue)
         Binding(queue, Binding.DestinationType.QUEUE, EXCHANGE, "", null)
