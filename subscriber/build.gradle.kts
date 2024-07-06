@@ -14,6 +14,10 @@ dependencies {
 
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
+
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    testImplementation("ch.qos.logback:logback-classic:1.5.6")
 }
 
 tasks.test {

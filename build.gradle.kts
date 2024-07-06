@@ -27,6 +27,9 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+	testImplementation("ch.qos.logback:logback-classic:1.5.6")
+
 	//Spring
 
 }
