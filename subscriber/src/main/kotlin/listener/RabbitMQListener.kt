@@ -19,6 +19,7 @@ class RabbitMQListener(
         private const val THIRTY_QUEUE = "test.v1.send-thirty-message-queue"
     }
 
+
     @RabbitListener(queues = [FIRST_QUEUE])
     fun receiveMessageFirstQueue(message: Message) {
         messageConverter.fromMessage(message).let {
