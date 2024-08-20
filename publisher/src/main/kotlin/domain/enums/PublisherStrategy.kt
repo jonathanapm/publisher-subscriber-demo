@@ -1,4 +1,4 @@
-package com.project.domain
+package com.project.domain.enums
 
 enum class PublisherStrategy {
     KAFKA_PUBLISHER,

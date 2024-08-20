@@ -1,9 +1,8 @@
 package com.project.controller
 
-import com.project.controller.request.ProductRequest
-import com.project.domain.PublisherStrategy
+import com.project.domain.Product
+import com.project.domain.enums.PublisherStrategy
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,10 +20,10 @@ class PublisherResource(
     }
 
     @PostMapping("/send/{strategy}")
-    fun sendMessage(@PathVariable strategy: PublisherStrategy, @RequestBody productRequest: ProductRequest) {
+    fun sendMessage(@PathVariable strategy: PublisherStrategy, @RequestBody product: Product) {
         when (strategy) {
             PublisherStrategy.KAFKA_PUBLISHER -> TODO()
-            PublisherStrategy.RABBIT_PUBLISHER -> rabbitTemplate.convertAndSend(EXCHANGE, "", productRequest)
+            PublisherStrategy.RABBIT_PUBLISHER -> rabbitTemplate.convertAndSend(EXCHANGE, "", product)
             PublisherStrategy.BOTH -> {
                 rabbitTemplate.convertAndSend(EXCHANGE, "", "productRequest")
             }
